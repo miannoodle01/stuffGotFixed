@@ -1,0 +1,58 @@
+How to connect linux machine to windows machine through a lan cable?
+
+1- Connect your machines with lan cable to each other.
+2- First of all in your linux machine type this command in terminal.
+3- sudo apt install samba
+4- After installing samba go to Advanced Network Configuration in your linux machine.
+5- Modify the new wired connection that has been created when you connected two machines to each other as below.
+6- On the IPv4 settings on the Method set to Manual.
+7- On the IPv4 settings on the Additional static addresses add the address below.
+8- Address = 192.168.1.1
+9- Netmask = 255.255.255.0 ( this value may be changed to 24 by system, don't worry it's normal )
+10- Gateway = Don't type anything there.
+11- Additional DNS servers = 192.168.1.1
+12- Save the settings.
+13- On the windows machine go to network sharing center, change advanced settings.
+14- Turn on network discovery.
+15- Turn on file and printer sharing.
+16- On the sharing center change the device ip to 192.168.1.2 ( for doing this you can search net )
+17- Set netmask to 255.255.255.0
+18- Set the remote host to 192.168.1.1 ( if such setting in your windows machine exists )
+19- Go to your linux machine open terminal and run these commands.
+20- su
+21- Deactivate any programs that will start when you go to superuser mode such as conda.
+22- If you don't have any app that has these statistics ignore line 19 & 20.
+23- mkdir -p /shared_lan_file
+24- chmid -R 755 /shared_lan_file
+25- chown -R nobody:nobody /shared_lan_file
+26- chcon -t samba_share_t /shared_lan_flie
+27- vim /etc/samba/smb.config
+28- %d
+29- Copy the following code.
+[global]
+workgroup = WORKGROUP
+server string = Samba Server %v
+netbios name = rocky-8
+security = user
+map to guest = bad user
+dns proxy = no
+ntlm auth = true
+
+
+
+[Public]
+path =  /shared_lan_file
+browsable = yes
+writable = yes
+guest ok = yes
+read only = no
+writeable = yes
+30- Press esc, then type the following
+31- :wq
+32- systemctl start smbd
+33- systemctl enable smbd
+34- systemctl start nmbd
+35- systemctl enable nmbd
+36- Go to windows press windows key + R then type the following.
+37- \\192.168.1.1
+38- Wait a bit the file manager of windows will open then you can transfer files.
