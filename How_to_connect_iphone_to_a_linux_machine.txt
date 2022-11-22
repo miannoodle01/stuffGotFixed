@@ -1,0 +1,11 @@
+How to connect Iphone through usb to a linux machine?
+
+1- Open terminal write these commands.
+2- sudo apt-get install libmobiledevice-utils
+3- sudo apt-get install ifusse
+4- su
+5- mkdir ~/iphone
+6- Don't close your terminal for ease of process. Mount your Iphone. Type this command.
+7- ifuse ~/iphone
+8- The command section is done. Open your file manager as root.
+You may see the device and can have access to it.
