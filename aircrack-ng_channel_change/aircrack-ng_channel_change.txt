@@ -1,0 +1,6 @@
+In some systems that internet is running with NetworkMnanager on using aircrack-ng, you may recognize that the channel is changing rapidly
+even if you specify an specific channel to listen on, this problem occures when a service that is related to NetworkManager to fix this
+you may run the following command in superuser terminal.
+1- airmon-ng check kill
+2- pkill number*
+* = number is an integer that you will see on the output of first command.
