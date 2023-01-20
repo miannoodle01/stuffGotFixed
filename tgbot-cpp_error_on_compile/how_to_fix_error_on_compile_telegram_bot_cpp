@@ -1,0 +1,6 @@
+hello guys! if anybody here wants to write a telegram bot with c++ and reo7sp tgbot-cpp library, if you faced error on compile, run the g++ with this prefix:
+-std=c++11 -lTgBot -lpthread -lssl -lcrypto -lboost_system
+
+for example if you want to compile main.cpp, run like this:
+
+g++ main.cpp -o main -std=c++11 -lTgBot -lpthread -lssl -lcrypto -lboost_system
