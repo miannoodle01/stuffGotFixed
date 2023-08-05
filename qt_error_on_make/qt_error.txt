@@ -1,0 +1,37 @@
+on making qt version 5.12 i faced errors:
+the first error was:
+/qt5/qtlocation/src/3rdparty/mapbox-gl-native/platform/default/bidi.cpp:63:24: error: no member named 'runtime_error' in namespace 'std'
+throw std::runtime_error(std::string("ProcessedBiDiText::mergeParagraphLineBreaks: ") +
+~~~~~^
+/qt5/qtlocation/src/3rdparty/mapbox-gl-native/platform/default/bidi.cpp:98:20: error: no member named 'runtime_error' in namespace 'std'
+throw std::runtime_error(std::string("BiDi::processText: ") + u_errorName(errorCode));
+~~~~~^
+/qt5/qtlocation/src/3rdparty/mapbox-gl-native/platform/default/bidi.cpp:109:20: error: no member named 'runtime_error' in namespace 'std'
+throw std::runtime_error(std::string("BiDi::getLine (setLine): ") + u_errorName(errorCode));
+~~~~~^
+/qt5/qtlocation/src/3rdparty/mapbox-gl-native/platform/default/bidi.cpp:125:20: error: no member named 'runtime_error' in namespace 'std'
+throw std::runtime_error(std::string("BiDi::getLine (writeReordered): ") +
+~~~~~^
+4 errors generated.
+make[5]: *** [Makefile:3793: .obj/platform/default/bidi.o] Error 1
+
+and i fixed it with including stdexcept library and this fixed my problem
+
+then i faced this error:
+/qt5/qtlocation/src/3rdparty/mapbox-gl-native/src/mbgl/util/convert.cpp:6:56: error: ‘int32_t’ was not declared in this scope
+    6 | template std::array<float, 2> convert(const std::array<int32_t, 2>&);
+      |                                                        ^~~~~~~
+/qt5/qtlocation/src/3rdparty/mapbox-gl-native/src/mbgl/util/convert.cpp:6:66: error: template argument 1 is invalid
+    6 | template std::array<float, 2> convert(const std::array<int32_t, 2>&);
+      |                                                                  ^
+/qt5/qtlocation/src/3rdparty/mapbox-gl-native/src/mbgl/util/convert.cpp:6:31: error: template-id ‘convert<>’ for ‘std::array<float, 2> mbgl::util::convert(const int&)’ does not match any template declaration
+    6 | template std::array<float, 2> convert(const std::array<int32_t, 2>&);
+      |                               ^~~~~~~
+In file included from /home/judi/Downloads/qt_opensource/qt5/qtlocation/src/3rdparty/mapbox-gl-native/src/mbgl/util/convert.cpp:1:
+/qt5/qtlocation/src/3rdparty/mapbox-gl-native/include/mbgl/util/convert.hpp:12:37: note: candidate is: ‘template<class To, class From, long unsigned int Size, class> constexpr std::array<To, Size> mbgl::util::convert(const std::array<_Tp, _Nm>&)’
+   12 | MBGL_CONSTEXPR std::array<To, Size> convert(const std::array<From, Size>&from) {
+      |                                     ^~~~~~~
+make[5]: *** [Makefile:59333: .obj/src/mbgl/util/convert.o] Error 1
+
+i fixed this error by including stdint.h library
+
